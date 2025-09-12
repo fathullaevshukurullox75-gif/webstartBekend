@@ -1,0 +1,49 @@
+1 , 2 +, 3 , 4 +, 5 , 6 +, 7 , 8 , 9 +.
+
+bitgani 4,
+bitmagani 5.
+
+1
+Attendance_Schema
+Attendance_Ctrl
+Attendance_Router
+
+2 +
+Course_Schema +
+Course_Ctrl +
+Course_Router +
+
+3
+Exam_Schema
+Exam_Ctrl
+Exam_Router
+
+4 +
+Group_Schema +
+Group_Ctrl +
+Group_Router +
+
+5
+Homework_Schema
+Homework_Ctrl
+Homework_Router
+
+6 +
+Lesson_Schema +
+Lesson_Ctrl +
+Lesson_Router +
+
+7
+Notification_Schema
+Notification_Ctrl
+Notification_Router
+
+8
+Payment_Schema
+Payment_Ctrl
+Payment_Router
+
+9 +
+User_Schema +
+User_Ctrl +
+User_Router +
