@@ -3,10 +3,10 @@ const router = express.Router();
 const GroupCtrl = require("../controller/groupCtrl");
 const authMiddleware = require("../middleware/authMiddleware");
 
-router.post("/group", authMiddleware, GroupCtrl.createGroup);
-router.get("/group", authMiddleware, GroupCtrl.getGroups);
-router.get("/group/:id", authMiddleware, GroupCtrl.getGroupById);
-router.put("/group/:id", authMiddleware, GroupCtrl.updateGroup);
-router.delete("/group/:id", authMiddleware, GroupCtrl.deleteGroup);
+router.post("/", authMiddleware, GroupCtrl.createGroup);
+router.get("/", authMiddleware, GroupCtrl.getGroups);
+router.get("/:id", authMiddleware, GroupCtrl.getGroupById);
+router.put("/:id", authMiddleware, GroupCtrl.updateGroup);
+router.delete("/:id", authMiddleware, GroupCtrl.deleteGroup);
 
 module.exports = router;

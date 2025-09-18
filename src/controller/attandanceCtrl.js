@@ -2,7 +2,7 @@ const Attendance = require("../model/attendanceModel");
 const User = require("../model/userModel");
 const Group = require("../model/groupModel");
 
-const AttendanseCtrl = {
+const attendanceCtrl = {
   createAttendance: async (req, res) => {
     try {
       const { student, group, date, status } = req.body;
@@ -24,21 +24,17 @@ const AttendanseCtrl = {
       let normalizedDate = new Date(date || Date.now());
       normalizedDate.setHours(0, 0, 0, 0);
 
-      // 4. Duplicate check
       const existing = await Attendance.findOne({
         student,
         group,
         date: normalizedDate,
       });
       if (existing) {
-        return res
-          .status(400)
-          .json({
-            message: "Attendance already exists for this student on this date",
-          });
+        return res.status(400).json({
+          message: "Attendance already exists for this student on this date",
+        });
       }
 
-      // 5. Yangi attendance yaratish
       const attendance = await Attendance.create({
         student,
         group,
@@ -67,7 +63,7 @@ const AttendanseCtrl = {
       }
 
       const attendance = await Attendance.find(filter)
-        .populate("student", "name email") 
+        .populate("student", "name email")
         .populate("group", "name");
 
       res.json(attendance);
@@ -114,4 +110,5 @@ const AttendanseCtrl = {
     }
   },
 };
-module.exports = AttendanseCtrl;
+
+module.exports = attendanceCtrl;

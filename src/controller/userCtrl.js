@@ -7,7 +7,7 @@ const JWT_SECRET_KEY = process.env.JWT_SECRET_KEY;
 const userCtrl = {
   getAllUsers: async (req, res) => {
     try {
-      const users = await User.find().select("-password");
+      const users = await User.find({ role: "user" }).select("-password");
       res.status(200).json({
         message: "All Users",
         users,
@@ -29,6 +29,23 @@ const userCtrl = {
       res.status(200).json({
         message: "User found",
         user,
+      });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: error.message });
+    }
+  },
+  getTeachers: async (req, res) => {
+    try {
+      const teachers = await User.find({ role: "teacher" }).select("-password");
+
+      if (!teachers || teachers.length === 0) {
+        return res.status(404).json({ message: "No teachers found" });
+      }
+
+      res.status(200).json({
+        message: "Teachers found",
+        users: teachers,
       });
     } catch (error) {
       console.error(error);

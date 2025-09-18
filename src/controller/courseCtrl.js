@@ -98,7 +98,7 @@ const CourseCtrl = {
       }
 
       if (price !== undefined) {
-        if (typeof price !== "number" || price <= 0) {
+        if (price <= 0) {
           return res
             .status(400)
             .json({ message: "Price must be a positive number" });

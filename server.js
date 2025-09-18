@@ -7,7 +7,10 @@ const http = require("http");
 
 dotenv.config({ DOTENV_LOG: false });
 const authRouter = require("./src/router/authRouter");
+const userRouter = require("./src/router/userRouter");
 const courseRouter = require("./src/router/corseRouter");
+const attandanseRouter = require("./src/router/attandanseRouter");
+const groupRouter = require("./src/router/groupRouter");
 
 const app = express();
 const server = http.createServer(app);
@@ -22,7 +25,10 @@ app.use(fileupload({ useTempFiles: true }));
 
 // ✅ Routers (keyin ulaysiz)
 app.use("/api/auth", authRouter);
+app.use("/api", userRouter);
 app.use("/api/courses", courseRouter);
+app.use("/api/attandanse", attandanseRouter);
+app.use("/api/groups", groupRouter);
 
 mongoose
   .connect(MONGO_URL, {

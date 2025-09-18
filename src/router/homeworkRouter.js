@@ -2,7 +2,7 @@
 const express = require("express");
 const router = express.Router();
 const homeworkCtrl = require("../controller/homeworkCtrl");
-const { verifyToken } = require("../middleware/authMiddleware");
+const { verifyToken } = require("../middleware/verifikationCode");
 
 router.post("/", verifyToken, homeworkCtrl.createHomework);
 router.get("/", verifyToken, homeworkCtrl.getHomeworks);
