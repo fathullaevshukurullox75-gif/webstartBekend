@@ -43,6 +43,7 @@ const GroupCtrl = {
       let validStudents = [];
       if (students.length) {
         const foundStudents = await User.find({ _id: { $in: students } });
+
         if (foundStudents.length !== students.length) {
           return res.status(400).json({ message: "Some students not found" });
         }
@@ -79,7 +80,6 @@ const GroupCtrl = {
         capacity,
         description,
       });
-
       res.status(201).json({
         message: "Group created successfully",
         group: newGroup,
@@ -92,8 +92,8 @@ const GroupCtrl = {
   getGroups: async (req, res) => {
     try {
       const groups = await Group.find()
-        .populate("students", "name email")
-        .populate("teacher", "name email")
+        .populate("students", "username surname email")
+        .populate("teacher", "username surname email")
         .populate("course", "title duration");
       res.status(200).json(groups);
     } catch (error) {
@@ -104,8 +104,8 @@ const GroupCtrl = {
   getGroupById: async (req, res) => {
     try {
       const group = await Group.findById(req.params.id)
-        .populate("students", "name email")
-        .populate("teacher", "name email")
+        .populate("students", "username surname email")
+        .populate("teacher", "username surname email")
         .populate("course", "title duration");
 
       if (!group) {
@@ -218,12 +218,10 @@ const GroupCtrl = {
   deleteGroup: async (req, res) => {
     try {
       if (!req.user || !["admin", "superAdmin"].includes(req.user.role)) {
-        return res
-          .status(403)
-          .json({
-            message:
-              "Access denied. Only admin or super admin can delete groups.",
-          });
+        return res.status(403).json({
+          message:
+            "Access denied. Only admin or super admin can delete groups.",
+        });
       }
 
       const group = await Group.findById(req.params.id);

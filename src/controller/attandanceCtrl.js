@@ -3,52 +3,52 @@ const User = require("../model/userModel");
 const Group = require("../model/groupModel");
 
 const attendanceCtrl = {
-  createAttendance: async (req, res) => {
+  createManyAttendance: async (req, res) => {
     try {
-      const { student, group, date, status } = req.body;
+      const { group, records, date } = req.body;
 
-      if (!student || !group) {
-        return res
-          .status(400)
-          .json({ message: "Student and Group are required" });
+      if (!group || !records || !Array.isArray(records)) {
+        return res.status(400).json({ message: "Group va records talab qilinadi" });
       }
 
-      const studentExists = await User.findById(student);
-      if (!studentExists)
-        return res.status(404).json({ message: "Student not found" });
-
       const groupExists = await Group.findById(group);
-      if (!groupExists)
-        return res.status(404).json({ message: "Group not found" });
+      if (!groupExists) {
+        return res.status(404).json({ message: "Group topilmadi" });
+      }
 
       let normalizedDate = new Date(date || Date.now());
       normalizedDate.setHours(0, 0, 0, 0);
 
-      const existing = await Attendance.findOne({
-        student,
+      const toInsert = records.map((r) => ({
+        student: r.student,
         group,
         date: normalizedDate,
-      });
-      if (existing) {
-        return res.status(400).json({
-          message: "Attendance already exists for this student on this date",
-        });
-      }
+        status: r.status || "absent",
+      }));
 
-      const attendance = await Attendance.create({
-        student,
-        group,
-        date: normalizedDate,
-        status,
-      });
+      // upsert (agar mavjud bo‘lsa update qiladi, bo‘lmasa qo‘shadi)
+      const results = await Promise.all(
+        toInsert.map(async (record) => {
+          return await Attendance.findOneAndUpdate(
+            {
+              student: record.student,
+              group: record.group,
+              date: record.date,
+            },
+            record,
+            { upsert: true, new: true }
+          );
+        })
+      );
 
-      res.status(201).json(attendance);
+      res.status(201).json({ message: "✅ Davomat saqlandi", data: results });
     } catch (error) {
-      console.error("Create Attendance Error:", error);
+      console.error("Create Many Attendance Error:", error);
       res.status(500).json({ message: "Server error", error: error.message });
     }
   },
 
+  // Get attendance
   getAttendance: async (req, res) => {
     try {
       const { student, group, date } = req.query;
@@ -63,8 +63,8 @@ const attendanceCtrl = {
       }
 
       const attendance = await Attendance.find(filter)
-        .populate("student", "name email")
-        .populate("group", "name");
+        .populate("student", "username email")
+        .populate("group", "groupName");
 
       res.json(attendance);
     } catch (error) {
