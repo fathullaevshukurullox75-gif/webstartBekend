@@ -5,7 +5,7 @@ const Course = require("../model/courseModel");
 const GroupCtrl = {
   createGroup: async (req, res) => {
     try {
-      if (!req.user || !["admin", "superAdmin"].includes(req.user.role)) {
+      if (!req.user || !["admin", "superadmin"].includes(req.user.role)) {
         return res.status(403).json({
           message:
             "Access denied. Only admin or super admin can create groups.",
@@ -133,7 +133,7 @@ const GroupCtrl = {
         description,
       } = req.body;
 
-      if (!req.user || !["admin", "superAdmin"].includes(req.user.role)) {
+      if (!req.user || !["admin", "superadmin"].includes(req.user.role)) {
         return res.status(403).json({
           message:
             "Access denied. Only admin or super admin can update groups.",
@@ -217,7 +217,7 @@ const GroupCtrl = {
 
   deleteGroup: async (req, res) => {
     try {
-      if (!req.user || !["admin", "superAdmin"].includes(req.user.role)) {
+      if (!req.user || !["admin", "superadmin"].includes(req.user.role)) {
         return res.status(403).json({
           message:
             "Access denied. Only admin or super admin can delete groups.",
