@@ -3,7 +3,7 @@ const Course = require("../model/courseModel");
 const CourseCtrl = {
   createCourse: async (req, res) => {
     try {
-      if (!req.user || !["admin", "superAdmin"].includes(req.user.role)) {
+      if (!req.user || !["admin", "superadmin"].includes(req.user.role)) {
         return res.status(403).json({ message: "Access denied" });
       }
 
@@ -72,7 +72,7 @@ const CourseCtrl = {
 
   updateCourse: async (req, res) => {
     try {
-      if (!req.user || !["admin", "superAdmin"].includes(req.user.role)) {
+      if (!req.user || !["admin", "superadmin"].includes(req.user.role)) {
         return res.status(403).json({
           message:
             "Access denied. Only admin or super admin can update courses.",
@@ -139,7 +139,7 @@ const CourseCtrl = {
 
   deleteCourse: async (req, res) => {
     try {
-      if (!req.user || !["admin", "superAdmin"].includes(req.user.role)) {
+      if (!req.user || !["admin", "superadmin"].includes(req.user.role)) {
         return res.status(403).json({
           message:
             "Access denied. Only admin or super admin can delete courses.",
