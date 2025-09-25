@@ -1,6 +1,5 @@
 const Homework = require("../model/homeworkModel");
 const Lesson = require("../model/lessonModel");
-// const User = require("../models/User");
 const HomeworkCtrl = {
   createHomework: async (req, res) => {
     try {

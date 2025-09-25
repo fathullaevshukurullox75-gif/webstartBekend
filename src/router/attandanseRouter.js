@@ -1,4 +1,3 @@
-// routes/attendanceRoutes.js
 const express = require("express");
 const router = express.Router();
 const attendanceCtrl = require("../controller/attandanceCtrl");

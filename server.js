@@ -23,7 +23,6 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(fileupload({ useTempFiles: true }));
 
-// ✅ Routers (keyin ulaysiz)
 app.use("/api/auth", authRouter);
 app.use("/api", userRouter);
 app.use("/api/courses", courseRouter);

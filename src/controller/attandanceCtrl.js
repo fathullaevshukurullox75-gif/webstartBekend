@@ -26,7 +26,6 @@ const attendanceCtrl = {
         status: r.status || "absent",
       }));
 
-      // upsert (agar mavjud bo‘lsa update qiladi, bo‘lmasa qo‘shadi)
       const results = await Promise.all(
         toInsert.map(async (record) => {
           return await Attendance.findOneAndUpdate(
@@ -48,7 +47,6 @@ const attendanceCtrl = {
     }
   },
 
-  // Get attendance
   getAttendance: async (req, res) => {
     try {
       const { student, group, date } = req.query;

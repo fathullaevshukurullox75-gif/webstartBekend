@@ -1,4 +1,3 @@
-// routes/homeworkRoutes.js
 const express = require("express");
 const router = express.Router();
 const homeworkCtrl = require("../controller/homeworkCtrl");
