@@ -101,6 +101,28 @@ const GroupCtrl = {
     }
   },
 
+  transferStudent: async (req, res) => {
+    try {
+      const { studentId, fromGroupId, toGroupId } = req.body;
+
+      if (!studentId || !fromGroupId || !toGroupId) {
+        return res.status(400).json({ message: "Missing required fields" });
+      }
+
+      await Group.findByIdAndUpdate(fromGroupId, {
+        $pull: { students: studentId },
+      });
+
+      await Group.findByIdAndUpdate(toGroupId, {
+        $addToSet: { students: studentId },
+      });
+
+      res.json({ message: "Student successfully transferred" });
+    } catch (err) {
+      res.status(500).json({ message: "Transfer error", error: err.message });
+    }
+  },
+
   getGroupById: async (req, res) => {
     try {
       const group = await Group.findById(req.params.id)
